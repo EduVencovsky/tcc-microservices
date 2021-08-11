@@ -1,0 +1,9 @@
+{
+  "eslint.workingDirectories": [
+    "monolith",
+    "microservices/api-gateway",
+    "microservices/user-service",
+    "microservices/product-service"
+  ],
+  "editor.formatOnSave": true
+}
