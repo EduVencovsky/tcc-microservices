@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToMany, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 
 import { Purchase } from './purchase.entity';
 import { Product } from 'src/product/entities/product.entity';
@@ -8,7 +8,7 @@ export class PurchaseQuantity {
   @ManyToOne(() => Purchase, { primary: true })
   purchase: Purchase;
 
-  @ManyToMany(() => Product, { primary: true })
+  @ManyToOne(() => Product, { primary: true })
   product: Product;
 
   @Column()
