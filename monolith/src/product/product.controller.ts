@@ -1,17 +1,18 @@
 import {
-  Controller,
   Get,
   Post,
   Body,
   Patch,
   Param,
   Delete,
+  Controller,
   NotFoundException,
 } from '@nestjs/common';
+
 import { ProductService } from './product.service';
+import { Product } from './entities/product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { Product } from './entities/product.entity';
 
 @Controller('product')
 export class ProductController {

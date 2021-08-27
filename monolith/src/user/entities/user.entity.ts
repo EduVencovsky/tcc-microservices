@@ -8,7 +8,6 @@ import {
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 import { Address } from 'src/base/embedded/adress.embedded';
-import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
 export class User {

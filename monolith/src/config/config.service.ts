@@ -4,9 +4,7 @@ import { EnvironmentVariables } from './configuration';
 
 @Injectable()
 export class AppConfigService {
-  constructor(public instance: ConfigService<EnvironmentVariables>) {
-    console.log(instance.get('DB_PASSWORD'));
-  }
+  constructor(public instance: ConfigService<EnvironmentVariables>) {}
 
   get version(): string {
     return process.env.npm_package_version || '1.0.0';

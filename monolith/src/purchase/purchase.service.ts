@@ -5,31 +5,75 @@ import { Repository } from 'typeorm';
 import { Purchase } from './entities/purchase.entity';
 import { CreatePurchaseDto } from './dto/create-purchase.dto';
 import { UpdatePurchaseDto } from './dto/update-purchase.dto';
+import { PurchaseQuantity } from './entities/purchase-quanitty.entity';
 
 @Injectable()
 export class PurchaseService {
   constructor(
     @InjectRepository(Purchase)
-    private purchaseRepository: Repository<Purchase>,
+    private repository: Repository<Purchase>,
+    @InjectRepository(PurchaseQuantity)
+    private purchaseQuantityRepository: Repository<PurchaseQuantity>,
   ) {}
 
-  create(createPurchaseDto: CreatePurchaseDto) {
-    return this.purchaseRepository.create(createPurchaseDto);
+  async create(createPurchaseDto: CreatePurchaseDto): Promise<Purchase> {
+    const purchase = this.repository.create({
+      user: { id: createPurchaseDto.userId },
+    });
+
+    await this.repository.save(purchase);
+
+    const productQuantity = createPurchaseDto.productQuantity.map(
+      ({ productId, quantity }) =>
+        this.purchaseQuantityRepository.save({
+          purchase,
+          quantity: quantity,
+          product: { id: productId },
+        }),
+    );
+
+    await Promise.all(productQuantity);
+
+    return purchase;
   }
 
-  findAll() {
-    return this.purchaseRepository.find();
+  findAll(): Promise<Purchase[]> {
+    return this.repository.find({
+      relations: ['productQuantity', 'productQuantity.product'],
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} purchase`;
+  findOne(id: number): Promise<Purchase> {
+    return this.repository.findOne(id, {
+      relations: ['productQuantity', 'productQuantity.product'],
+    });
   }
 
-  update(id: number, updatePurchaseDto: UpdatePurchaseDto) {
-    return `This action updates a #${id} purchase`;
+  async update(
+    id: number,
+    updatePurchaseDto: UpdatePurchaseDto,
+  ): Promise<Purchase | null> {
+    const purchase = await this.repository.findOne(id);
+
+    if (!purchase) return null;
+
+    await this.purchaseQuantityRepository.delete({ purchase: { id } });
+
+    const productQuantity = updatePurchaseDto.productQuantity.map(
+      ({ productId, quantity }) =>
+        this.purchaseQuantityRepository.save({
+          purchase,
+          quantity: quantity,
+          product: { id: productId },
+        }),
+    );
+
+    await Promise.all(productQuantity);
+
+    return purchase;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} purchase`;
+  async remove(id: number): Promise<void> {
+    await this.repository.delete(id);
   }
 }

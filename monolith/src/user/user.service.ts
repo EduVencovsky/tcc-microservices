@@ -33,7 +33,7 @@ export class UserService {
   }
 
   update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-    return this.usersRepository.save({ ...(updateUserDto as any), id });
+    return this.usersRepository.save({ ...updateUserDto, id });
   }
 
   async remove(id: number): Promise<void> {
