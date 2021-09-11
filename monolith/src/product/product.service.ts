@@ -1,9 +1,10 @@
+import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+
+import { Product } from './entities/product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { Product } from './entities/product.entity';
 
 @Injectable()
 export class ProductService {
@@ -16,6 +17,10 @@ export class ProductService {
     const product = this.productRepository.create(createProductDto);
     await this.productRepository.save(product);
     return product;
+  }
+
+  getPaginated(take: number, skip: number): Promise<Product[]> {
+    return this.productRepository.find({ skip, take });
   }
 
   findAll(): Promise<Product[]> {

@@ -8,7 +8,6 @@ import { AppConfigService } from 'src/config/config.service';
     TypeOrmModule.forRootAsync({
       imports: [AppConfigModule],
       useFactory: async (configService: AppConfigService) => {
-        console.log(configService.instance.get('DB_PASSWORD'));
         return {
           type: 'mariadb',
           host: configService.instance.get('DB_HOST'),
@@ -19,6 +18,7 @@ import { AppConfigService } from 'src/config/config.service';
           entities: [__dirname + '/**/*.entity{.ts,.js}'],
           synchronize: !configService.isProd,
           autoLoadEntities: true,
+          logging: ['query'],
         };
       },
       inject: [AppConfigService],

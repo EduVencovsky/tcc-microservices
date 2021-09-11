@@ -7,12 +7,13 @@ import {
   Delete,
   Controller,
   NotFoundException,
+  Query,
 } from '@nestjs/common';
 
 import { ProductService } from './product.service';
 import { Product } from './entities/product.entity';
-import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { CreateProductDto } from './dto/create-product.dto';
 
 @Controller('product')
 export class ProductController {
@@ -24,8 +25,11 @@ export class ProductController {
   }
 
   @Get()
-  findAll(): Promise<Product[]> {
-    return this.productService.findAll();
+  getPaginated(
+    @Query('skip') skip = 0,
+    @Query('take') take = 10,
+  ): Promise<Product[]> {
+    return this.productService.getPaginated(take, skip);
   }
 
   @Get(':id')
