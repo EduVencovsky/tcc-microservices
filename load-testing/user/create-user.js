@@ -9,7 +9,7 @@ export let options = {
   iterations: 1001,
 };
 
-const createUser = () => http.post(createUserUrl, getUserData(), params);
+export const createUser = () => http.post(createUserUrl, getUserData(), params);
 
 export default function () {
   let createUserResponse = createUser();

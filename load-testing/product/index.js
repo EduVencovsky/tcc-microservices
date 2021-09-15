@@ -1,4 +1,5 @@
 import { baseUrl } from "../config.js";
+import { getRandomInt } from "../utils.js";
 
 export const getProductByIdUrl = (productId) => {
   return `${baseUrl}/product/${productId}`;
@@ -11,7 +12,7 @@ export const getPaginatedProductUrl = (skip = 0, take = 10) => {
 export const createProductUrl = `${baseUrl}/product`;
 
 export const getProductData = (productName = undefined) => {
-  const name = productName ? productName : `product-${Math.random() * 10}`;
+  const name = productName ? productName : `product-${getRandomInt(1, 1000)}`;
 
   return JSON.stringify({
     name,

@@ -9,7 +9,7 @@ export let options = {
   iterations: 1001,
 };
 
-const createProduct = () =>
+export const createProduct = () =>
   http.post(createProductUrl, getProductData(), params);
 
 export default function () {

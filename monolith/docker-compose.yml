@@ -1,0 +1,10 @@
+version: '3.9'
+
+services:
+  main:
+    build: .
+    container_name: main
+    mem_limit: '128M'
+    cpus: 0.25
+    ports:
+      - '3000:3000'
