@@ -9,10 +9,10 @@ Esse repositório contem todo o conteudo utilizado para o meu TCC sobre Micro se
 ├── microservices
 │   ├── api-gateway
 │   │   └── src
-│   │       ├── order
+│   │       ├── purchase
 │   │       ├── product
 │   │       └── user
-│   ├── order-service
+│   ├── purchase-service
 │   │   └── src
 │   ├── product-service
 │   │   └── src
@@ -20,7 +20,7 @@ Esse repositório contem todo o conteudo utilizado para o meu TCC sobre Micro se
 │       └── src
 ├── monolith
 │   └── src
-│       ├── order
+│       ├── purchase
 │       ├── product
 │       └── user
 ```

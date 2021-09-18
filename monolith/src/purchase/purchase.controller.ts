@@ -18,7 +18,6 @@ export class PurchaseController {
 
   @Post()
   create(@Body() createPurchaseDto: CreatePurchaseDto) {
-    console.log('create');
     return this.purchaseService.create(createPurchaseDto);
   }
 
