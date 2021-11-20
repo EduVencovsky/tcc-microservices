@@ -1,13 +1,15 @@
 import http from "k6/http";
 import { check, sleep } from "k6";
 
-import { getPaginatedProductUrl } from "./index.js";
+import { getPaginatedProductUrl, getPingProductUrl } from "./index.js";
 import { getRandomInt } from "../utils.js";
 
 export let options = {
   vus: 10,
   iterations: 100,
 };
+
+export const getPingProduct = () => http.get(getPingProductUrl());
 
 export const getPaginatedProduct = (skip, take) =>
   http.get(getPaginatedProductUrl(skip, take));

@@ -3,7 +3,8 @@
     "monolith",
     "microservices/api-gateway",
     "microservices/user-service",
-    "microservices/product-service"
+    "microservices/product-service",
+    "microservices/purchase-service"
   ],
   "editor.formatOnSave": true,
 

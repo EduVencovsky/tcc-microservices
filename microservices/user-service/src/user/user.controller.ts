@@ -1,5 +1,12 @@
-import { Controller, Logger } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Controller, Logger, OnModuleInit } from '@nestjs/common';
+import {
+  Client,
+  ClientProxy,
+  ClientRedis,
+  MessagePattern,
+  Payload,
+  Transport,
+} from '@nestjs/microservices';
 
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
@@ -11,6 +18,14 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   private readonly logger = new Logger(UserController.name);
+
+  @Client({
+    transport: Transport.REDIS,
+    options: {
+      url: 'redis://localhost:6379',
+    },
+  })
+  private client: ClientRedis;
 
   @MessagePattern({ cmd: 'ping' })
   ping() {
@@ -25,10 +40,12 @@ export class UserController {
   }
 
   @MessagePattern({ cmd: 'create' })
-  create(@Payload() createUserDto: CreateUserDto): Promise<User> {
+  async create(@Payload() createUserDto: CreateUserDto): Promise<User> {
     this.logger.log(`create: ${JSON.stringify(createUserDto)}`);
 
-    return this.userService.create(createUserDto);
+    const user = await this.userService.create(createUserDto);
+    this.client.emit('ping', user).pipe(() => this.logger.log('pinged') as any);
+    return user;
   }
 
   @MessagePattern({ cmd: 'findOne' })

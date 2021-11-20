@@ -37,8 +37,9 @@ export class PurchaseService {
     return purchase;
   }
 
-  findAll(): Promise<Purchase[]> {
+  findAll(userId: string): Promise<Purchase[]> {
     return this.repository.find({
+      where: { user: { id: userId } },
       relations: ['productQuantity', 'productQuantity.product'],
     });
   }

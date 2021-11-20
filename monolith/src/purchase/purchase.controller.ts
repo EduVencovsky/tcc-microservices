@@ -21,9 +21,9 @@ export class PurchaseController {
     return this.purchaseService.create(createPurchaseDto);
   }
 
-  @Get()
-  findAll() {
-    return this.purchaseService.findAll();
+  @Get('findAll/:userId')
+  findAll(@Param('userId') userId: string) {
+    return this.purchaseService.findAll(userId);
   }
 
   @Get(':id')

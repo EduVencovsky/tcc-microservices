@@ -1,6 +1,10 @@
 import { baseUrl } from "../config.js";
 import { getRandomInt } from "../utils.js";
 
+export const getPingProductUrl = () => {
+  return `${baseUrl}/product/ping-product`;
+};
+
 export const getProductByIdUrl = (productId) => {
   return `${baseUrl}/product/${productId}`;
 };

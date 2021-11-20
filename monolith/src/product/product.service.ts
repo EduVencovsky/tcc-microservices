@@ -38,4 +38,8 @@ export class ProductService {
   async delete(id: number): Promise<void> {
     await this.productRepository.delete(id);
   }
+
+  ping() {
+    return 'Product Pong';
+  }
 }

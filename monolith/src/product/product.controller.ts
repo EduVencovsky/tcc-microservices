@@ -19,6 +19,12 @@ import { CreateProductDto } from './dto/create-product.dto';
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
+  @Get('ping-product')
+  ping() {
+    console.log('ping-product');
+    return this.productService.ping();
+  }
+
   @Post()
   create(@Body() createProductDto: CreateProductDto): Promise<Product> {
     return this.productService.create(createProductDto);
